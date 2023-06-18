@@ -63,11 +63,17 @@ def test_normal_pdf_lt_mean():
     x = mu - random()
     assert p.normal_pdf(x, mu, sigma) < p.normal_pdf(mu, mu, sigma)
     
+def test_normal_pdf_negative_sigma():
+    mu = 0
+    sigma = -1
+    x = 1
+    assert p.normal_pdf(x, mu, sigma) == None
+    
 def test_normal_pdf_gt_mean():
     mu = 0
     sigma = 1
     x = mu + random()
-    assert p.normal_pdf(x, mu, sigma) > p.normal_pdf(mu, mu, sigma)
+    assert p.normal_pdf(x, mu, sigma) < p.normal_pdf(mu, mu, sigma)
     
 def test_normal_pdf_random():
     x = random()
@@ -78,6 +84,12 @@ def test_normal_pdf_random():
 
 
 # TEST NORMAL_CDF
+def test_normal_cdf_negative_sigma():
+    mu = 0
+    sigma = -1
+    x = 1
+    assert p.normal_cdf(x, mu, sigma) == None
+    
 def test_normal_cdf_lt_mean():
     mu = 0
     sigma = 1
