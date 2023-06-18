@@ -158,7 +158,7 @@ def variance(x: List[float]) -> float:
     if len(x) == 1:
         return 0
     n = len(x)
-    deviations = de_mean(x)
+    deviations = subtract_mean(x)
     return sum_of_squares(deviations) / (n - 1)
 
 
@@ -221,7 +221,7 @@ def cov(x: List[float], y: List[float]) -> float:
         return None
     elif len(x) == 1:
         return 0
-    return dot(de_mean(x), de_mean(y)) / (len(x) - 1)
+    return dot(subtract_mean(x), subtract_mean(y)) / (len(x) - 1)
 
 
 def corr(x: List[float], y: List[float]) -> float:
