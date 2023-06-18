@@ -1,7 +1,7 @@
 import math
 from typing import List, Tuple, Callable
 
-import vector as v
+from . import vector as v
 
 # Define Matrix type
 Matrix = List[List[float]]
