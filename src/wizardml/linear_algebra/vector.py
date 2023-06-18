@@ -181,3 +181,7 @@ def distance(v: Vector, w: Vector) -> float:
         Returns the distance between two vectors v and w.
     """
     return magnitude(subtract(v, w))
+
+
+if __name__ == '__main__':
+    pass
