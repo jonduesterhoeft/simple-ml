@@ -57,7 +57,7 @@ def normal_pdf(x: float, mu: float=0, sigma: float=1) -> float:
     float
         The probability that a normal random variable = x.
     """
-    if x <= 0:
+    if sigma <= 0:
         return None
     a = math.sqrt(2 * math.pi) * sigma
     b = (( x - mu) ** 2) / (2 * sigma ** 2)
@@ -83,7 +83,7 @@ def normal_cdf(x: float, mu: float=0, sigma: float=1) -> float:
     float
         The probability that a normal random variable <= x.
     """
-    if x <= 0:
+    if sigma <= 0:
         return None
     return (1 + math.erf((x - mu) / (math.sqrt(2) * sigma))) / 2
 
