@@ -57,36 +57,42 @@ def test_uniform_cdf_random():
 
 
 # TEST NORMAL_PDF
-def test_normal_pdf_negative():
-    x = 0
-    assert p.normal_pdf(x) == 1
-    
-def test_normal_pdf_gt_one():
-    x = 2
+def test_normal_pdf_lt_mean():
     mu = 0
     sigma = 1
-    assert p.normal_pdf(x, mu, sigma) == 0
+    x = mu - random()
+    assert p.normal_pdf(x, mu, sigma) < p.normal_pdf(mu, mu, sigma)
     
-def test_normal_pdf_in_range():
-    x = 0.3987
+def test_normal_pdf_gt_mean():
     mu = 0
     sigma = 1
-    assert p.normal_pdf(x, mu, sigma) == 1
-    
-def test_normal_pdf_edge1():
-    x = 0.999999999999999
-    mu = 0
-    sigma = 1
-    assert p.normal_pdf(x, mu, sigma) == 1
-    
-def test_normal_pdf_edge2():
-    x = 1.00000000001
-    mu = 0
-    sigma = 1
-    assert p.normal_pdf(x, mu, sigma) == 0
+    x = mu + random()
+    assert p.normal_pdf(x, mu, sigma) > p.normal_pdf(mu, mu, sigma)
     
 def test_normal_pdf_random():
     x = random()
     mu = 0
     sigma = 1
-    assert p.normal_pdf(x, mu, sigma) == 1
+    assert p.normal_pdf(x, mu, sigma) >= 0
+    assert p.normal_pdf(x, mu, sigma) <= 1
+
+
+# TEST NORMAL_CDF
+def test_normal_cdf_lt_mean():
+    mu = 0
+    sigma = 1
+    x = mu - random()
+    assert p.normal_cdf(x, mu, sigma) < 0.5
+    
+def test_normal_cdf_gt_mean():
+    mu = 0
+    sigma = 1
+    x = mu + random()
+    assert p.normal_cdf(x, mu, sigma) > 0.5
+    
+def test_normal_cdf_random():
+    x = random()
+    mu = 0
+    sigma = 1
+    assert p.normal_cdf(x, mu, sigma) >= 0
+    assert p.normal_cdf(x, mu, sigma) <= 1
