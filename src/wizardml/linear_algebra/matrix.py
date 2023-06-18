@@ -1,7 +1,7 @@
 import math
 from typing import List, Tuple, Callable
 
-from data_tools.linear_algebra import vector as v
+from wizardml.linear_algebra import vector as v
 
 # Define Matrix type
 Matrix = List[List[float]]
