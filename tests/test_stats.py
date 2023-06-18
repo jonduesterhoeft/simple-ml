@@ -1,6 +1,6 @@
 import pytest
 
-from wizardml.stats import stats as s
+from src.wizardml.stats import stats as s
 
 
 # TEST MEAN
