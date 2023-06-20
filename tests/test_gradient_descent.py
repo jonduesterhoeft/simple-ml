@@ -19,7 +19,7 @@ def test_partial_difference_quotient_linear():
     h = 0.001
     expected_result = 2  # Partial derivative of a linear function is a constant
     result = g.partial_difference_quotient(linear_function, v, i, h)
-    assert expected_result == pytest.approx(result, abs=1e-5) 
+    assert expected_result == pytest.approx(result) 
 
 def test_partial_difference_quotient_quadratic():
     v = [1, -2, 3]
@@ -27,7 +27,7 @@ def test_partial_difference_quotient_quadratic():
     h = 0.0001
     expected_result = -1  # Partial derivative of a quadratic function is a constant
     result = g.partial_difference_quotient(quadratic_function, v, i, h)
-    assert expected_result == pytest.approx(result, abs=1e-5)
+    assert expected_result == pytest.approx(result)
 
 # TEST ESTIMATE_GRADIENT
 def test_estimate_gradient_linear():
@@ -35,14 +35,14 @@ def test_estimate_gradient_linear():
     h = 0.001
     expected_result = [2, 2, 2]  # Gradient of a linear function is a constant vector
     result = g.estimate_gradient(linear_function, v, h)
-    assert expected_result == pytest.approx(result, abs=1e-5) 
+    assert expected_result == pytest.approx(result) 
 
 def test_estimate_gradient_quadratic():
     v = [1, -2, 3]
     h = 0.0001
     expected_result = [2, 3, -1]  # Gradient of a quadratic function
     result = g.estimate_gradient(quadratic_function, v, h)
-    assert expected_result == pytest.approx(result, abs=1e-5)
+    assert expected_result == pytest.approx(result)
 
 # TEST GRADIENT_STEP
 def test_gradient_step_linear():
@@ -51,7 +51,7 @@ def test_gradient_step_linear():
     step_size = 0.1
     expected_result = [1.2, 2.2, 3.2]
     result = g.gradient_step(v, gradient, step_size) 
-    assert expected_result == pytest.approx(result, abs=1e-5) 
+    assert expected_result == pytest.approx(result) 
     
 def test_gradient_step_quadratic():
     v = [1, -2, 3]
@@ -59,4 +59,4 @@ def test_gradient_step_quadratic():
     step_size = 0.01
     expected_result = [1.02, -1.97, 3.01]
     result = g.gradient_step(v, gradient, step_size)    
-    assert expected_result == pytest.approx(result, abs=1e-5) 
+    assert expected_result == pytest.approx(result) 
