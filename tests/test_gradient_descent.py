@@ -17,32 +17,32 @@ def test_partial_difference_quotient_linear():
     v = [1.0, 2.0, 3.0]
     i = 1
     h = 0.001
-    expected_result = 2  # Partial derivative of a linear function is a constant
+    expected_result = 2.0 
     result = g.partial_difference_quotient(linear_function, v, i, h)
-    assert expected_result == pytest.approx(result, abs=1e-4) 
+    assert pytest.approx(result) == expected_result
 
 def test_partial_difference_quotient_quadratic():
     v = [1.0, -2.0, 3.0]
     i = 2
     h = 0.0001
-    expected_result = -1  # Partial derivative of a quadratic function is a constant
+    expected_result = -1.0 
     result = g.partial_difference_quotient(quadratic_function, v, i, h)
-    assert expected_result == pytest.approx(result, abs=1e-4)
+    assert pytest.approx(result) == expected_result
 
 # TEST ESTIMATE_GRADIENT
 def test_estimate_gradient_linear():
     v = [1.0, 2.0, 3.0]
     h = 0.001
-    expected_result = [2.0, 2.0, 2.0]  # Gradient of a linear function is a constant vector
+    expected_result = [2.0, 2.0, 2.0]  
     result = g.estimate_gradient(linear_function, v, h)
-    assert expected_result == pytest.approx(result, abs=1e-4)
+    assert pytest.approx(result) == expected_result
 
 def test_estimate_gradient_quadratic():
     v = [1.0, -2.0, 3.0]
     h = 0.0001
-    expected_result = [2.0, 3.0, -1.0]  # Gradient of a quadratic function
+    expected_result = [2.0, 3.0, -1.0] 
     result = g.estimate_gradient(quadratic_function, v, h)
-    assert expected_result == pytest.approx(result, abs=1e-4)
+    assert pytest.approx(result, abs=2*h) == expected_result
 
 # TEST GRADIENT_STEP
 def test_gradient_step_linear():
@@ -51,12 +51,12 @@ def test_gradient_step_linear():
     step_size = 0.1
     expected_result = [1.2, 2.2, 3.2]
     result = g.gradient_step(v, gradient, step_size) 
-    assert expected_result == pytest.approx(result, abs=1e-4) 
+    assert pytest.approx(result) == expected_result
     
 def test_gradient_step_quadratic():
     v = [1.0, -2.0, 3.0]
     gradient = [2.0, 3.0, -1.0]
     step_size = 0.01
-    expected_result = [1.02, -1.97, 3.01]
+    expected_result = [1.02, -1.97, 2.99]
     result = g.gradient_step(v, gradient, step_size)    
-    assert expected_result == pytest.approx(result, abs=1e-4) 
+    assert pytest.approx(result) == expected_result
