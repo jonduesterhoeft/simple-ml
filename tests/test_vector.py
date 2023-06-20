@@ -1,7 +1,7 @@
 import math
 import pytest
 
-from src.wizardml.linear_algebra import vector as v
+from src.wizardml.math.linear_algebra import vector as v
 
 # VECTOR ADD TESTS
 def test_add_unequal():

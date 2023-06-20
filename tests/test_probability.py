@@ -1,7 +1,7 @@
 import pytest
 from random import random
 
-from src.wizardml.stats import probability as p
+from src.wizardml.math.stats import probability as p
 
 
 # TEST UNIFORM_PDF

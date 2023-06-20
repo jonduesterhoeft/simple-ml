@@ -1,7 +1,7 @@
 import pytest
 import math
 
-from src.wizardml.linear_algebra import matrix as m
+from src.wizardml.math.linear_algebra import matrix as m
 
 
 # TEST SHAPE
