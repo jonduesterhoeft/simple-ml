@@ -71,5 +71,5 @@ def gradient_step(v: Vector, gradient: Vector, step_size: float) -> Vector:
         A new vector moved step_size along the gradient from v.
     """
     assert len(v) == len(gradient)
-    step = vector.scalar_multiply(step_size, gradient)
+    step = vector.scalar_multiply(gradient, step_size)
     return vector.add(v, step)
