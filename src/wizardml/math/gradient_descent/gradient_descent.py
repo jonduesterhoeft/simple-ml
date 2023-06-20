@@ -3,7 +3,7 @@ from typing import Callable
 from ..linear_algebra import vector as vector
 from ..linear_algebra.vector import Vector
 
-def partial_difference_quotient(f: Callable[[Vector, float]], 
+def partial_difference_quotient(f: Callable[[Vector], float], 
                                 v: Vector,
                                 i: int, 
                                 h: float) -> float:
@@ -30,7 +30,7 @@ def partial_difference_quotient(f: Callable[[Vector, float]],
     w = [v_j + (h if j == i else 0) for j, v_j in enumerate(v)]
     return (f(w) - f(v)) / h
 
-def estimate_gradient(f: Callable[[Vector, float]], 
+def estimate_gradient(f: Callable[[Vector], float], 
                                 v: Vector,
                                 h: float = 0.0001) -> Vector:
     """
