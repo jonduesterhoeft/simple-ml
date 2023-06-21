@@ -54,7 +54,16 @@ def test_r_squared():
     beta = 0.5
     x = [1.0, 2.0, 3.0, 4.0]
     y = [3.0, 4.0, 5.0, 6.0]
-    expected_result = 0.9
+    expected_result = -0.5
+    result = l.r_squared(alpha, beta, x, y)
+    assert pytest.approx(result) == expected_result
+    
+def test_r_squared_perfect_fit():
+    alpha = 1.0
+    beta = 0.2
+    x = [1.0, 2.0, 3.0, 4.0]
+    y = [3.0, 4.0, 5.0, 6.0]
+    expected_result = 1.0
     result = l.r_squared(alpha, beta, x, y)
     assert pytest.approx(result) == expected_result
 
