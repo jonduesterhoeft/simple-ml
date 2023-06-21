@@ -60,3 +60,25 @@ def test_gradient_step_quadratic():
     expected_result = [1.02, -1.97, 2.99]
     result = g.gradient_step(v, gradient, step_size)    
     assert pytest.approx(result) == expected_result
+    
+# TEST MINIBATCH
+def test_minibatch_fixed_batch_size():
+    dataset = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    batch_size = 3
+    expected_result = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10]]
+    result = list(g.minibatch(dataset, batch_size, shuffle=False))
+    assert result == expected_result
+
+def test_minibatch_percentage_batch_size():
+    dataset = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    batch_size = 0.4
+    expected_result = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10]]
+    result = list(g.minibatch(dataset, batch_size, shuffle=False))
+    assert result == expected_result
+
+def test_minibatch_shuffle():
+    dataset = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    batch_size = 2
+    unexpected_result = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10]]
+    result = list(g.minibatch(dataset, batch_size, shuffle=True))
+    assert result != unexpected_result

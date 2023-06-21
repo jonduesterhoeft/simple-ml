@@ -1,5 +1,5 @@
 import random
-from typing import Callable 
+from typing import Callable, TypeVar, List, Iterator
 from ..linear_algebra import vector as vector
 from ..linear_algebra.vector import Vector
 
@@ -73,3 +73,45 @@ def gradient_step(v: Vector, gradient: Vector, step_size: float) -> Vector:
     assert len(v) == len(gradient)
     step = vector.scalar_multiply(gradient, step_size)
     return vector.add(v, step)
+
+T = TypeVar('T')  ## Generic Function
+
+def minibatch(dataset: List[T], 
+              batch_size: int | float, 
+              shuffle: bool = True) -> Iterator:
+    """
+    Breaks a dataset into 'minibatchs' for use in gradient descent.
+
+    Parameters
+    ----------
+    dataset: List[T]
+        A dataset as a list of objects of type T.
+    batch_size : Vector
+        The size of the minibatches. A float between 0 and 1 is treated
+        as a percentage and multiplied by the size of the dataset to
+        determine the batch_size. Otherwise it specifies the number of
+        samples in each minibatch.
+    shuffle : float 
+        Determines whether or not to randomize the order of batches.
+
+    Returns
+    -------
+    Vector
+        A new vector moved step_size along the gradient from v.
+    """
+    # If batch_size in (0,1) treat as a percentage of the dataset
+    data_size = len(dataset)
+    if 0 < batch_size < 1:
+        batch_size = batch_size * data_size
+    batch_size = int(batch_size)
+    assert batch_size > 1, "batch_size must be greater than 1"
+    
+    
+    batch_starts = [start for start in range(0, data_size, batch_size)]
+    
+    if shuffle:
+        random.shuffle(batch_starts)
+        
+    for start in batch_starts:
+        end = start + batch_size
+        yield dataset[start:end]
