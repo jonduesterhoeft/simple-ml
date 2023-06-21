@@ -59,8 +59,8 @@ def test_r_squared():
     assert pytest.approx(result) == expected_result
     
 def test_r_squared_perfect_fit():
-    alpha = 1.0
-    beta = 0.2
+    alpha = 2.0
+    beta = 1.0
     x = [1.0, 2.0, 3.0, 4.0]
     y = [3.0, 4.0, 5.0, 6.0]
     expected_result = 1.0
