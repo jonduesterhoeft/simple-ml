@@ -108,3 +108,7 @@ def test_normal_cdf_random():
     sigma = 1
     assert p.normal_cdf(x, mu, sigma) >= 0
     assert p.normal_cdf(x, mu, sigma) <= 1
+
+
+if __name__ == '__main__':
+    pass

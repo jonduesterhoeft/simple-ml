@@ -260,3 +260,7 @@ def test_distance_float():
     a = [1, 0.5, 0]
     b = [0, 0, 0]
     assert v.distance(a, b) == math.sqrt(1.25)
+
+
+if __name__ == '__main__':
+    pass

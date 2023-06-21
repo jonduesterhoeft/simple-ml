@@ -118,3 +118,7 @@ def test_identify_matrix_1():
 
 def test_identify_matrix_2():
     assert m.identity_matrix(2) == [[1, 0], [0, 1]]
+
+
+if __name__ == '__main__':
+    pass

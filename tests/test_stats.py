@@ -285,3 +285,7 @@ def test_correlation_real():
     x = [0, 2, 3, 4]
     y = [0, 1, 5, 10]
     assert s.corr(x, y) == pytest.approx(0.901611)
+
+
+if __name__ == '__main__':
+    pass

@@ -82,3 +82,7 @@ def test_minibatch_shuffle():
     unexpected_result = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10]]
     result = list(g.minibatch(dataset, batch_size, shuffle=True))
     assert result != unexpected_result
+
+
+if __name__ == '__main__':
+    pass
