@@ -1,4 +1,3 @@
-import math
 import pytest
 
 from src.wizardml.classifiers.linear_models import linear_regression as l
