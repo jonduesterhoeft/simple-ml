@@ -14,7 +14,7 @@ def test_predict():
 # TEST ERROR
 def test_error():
     x = [1.0, 2.0, 3.0]
-    y = 5.0
+    y = [5.0]
     beta = [0.5, 0.25, 0.75]
     expected_result = -1.75
     result = l.error(x, y, beta)
@@ -23,7 +23,7 @@ def test_error():
 # TEST SQUARED_ERROR
 def test_squared_error():
     x = [1.0, 2.0, 3.0]
-    y = 5.0
+    y = [5.0]
     beta = [0.5, 0.25, 0.75]
     expected_result = [-3.5, -7, -10.5]
     result = l.squared_error(x, y, beta)
@@ -32,10 +32,10 @@ def test_squared_error():
 # TEST SQUARED_ERROR_GRADIENT
 def test_squared_error_gradient():
     x = [1.0, 2.0, 3.0]
-    y = 5.0
+    y = [5.0]
     beta = [0.5, 0.25, 0.75]
     expected_result = 3.0625
-    result = l.squared_error(x, y, beta)
+    result = l.squared_error_gradient(x, y, beta)
     assert pytest.approx(result) == expected_result
 
 # TEST FIT_LEAST_SQUARES
