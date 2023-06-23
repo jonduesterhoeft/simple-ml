@@ -1,93 +1,143 @@
-from typing import Tuple
-
+import random
+from typing import List
 from ...math.linear_algebra.vector import Vector
+from ...math.linear_algebra import vector as v
 from ...math.stats.stats import corr, std, mean, subtract_mean
+from ...math.gradient_descent import gradient_descent as g
 
-def predict(alpha: float, beta: float, x_i: float) -> float:
+
+def predict(x: Vector, beta: Vector) -> float:
     """
-    Predicts using a simple linear regression model.
-    y_i = beta*x_i + alpha + error_i
+    Predicts y values for a vector of x values using linear regression.
+    
+    y_i = beta_1*x_i1 + beta_2*x_i2 + ... + beta_k*x_ik + (alpha) + error_i
+    beta = [beta_1, beta_2, ..., beta_k, (alpha)]
+    x_i = [x_i1, xi_2, ..., x_ik, (1)]
     
     Parameters
     ----------
-    alpha : float
-        alpha term for simple linear regression.
-    beta : float
-        beta term for simple linear regression.
-    x_i : float
+    beta : Vector
+        Vector with beta values for the linear model.
+    x : Vector
         The value of x for which we want to predict y.
 
     Returns
     -------
     float
-        Returns the predicted value of y at x.
+        Returns the predicted value of y given x and beta parameters.
     """
-    return beta * x_i + alpha
+    return v.dot(x, beta)
 
-def error(alpha: float, beta: float, x_i: float, y_i: float) -> float:
+def error(x: Vector,  y: Vector, beta: float) -> float:
     """
     Calculates the error of the prediction against a known actual.
     
     Parameters
     ----------
-    alpha : float
-        alpha term for simple linear regression.
-    beta : float
-        beta term for simple linear regression.
-    x_i : float
+    x : Vector
         The value of x for which we want to predict y.
-    y_i : float
+    y : Vector
         The known value of y at x.
+    beta : Vector
+        Vector with beta values for the linear model.
 
     Returns
     -------
     float
-        The error in prediction as y_predicted - y_actual
+        The error in prediction as y_predicted - y_actual.
     """
-    return predict(alpha, beta, x_i) - y_i
+    return predict(x, beta) - y
 
-def sum_of_squares_error(alpha: float, beta: float, x: Vector, y: Vector) -> float:
+def squared_error(x: Vector, y: Vector, beta: float) -> float:
     """
     Calculates the sum of squared errors from a simple linear regression.
     
     Parameters
     ----------
-    alpha : float
-        alpha term for simple linear regression.
-    beta : float
-        beta term for simple linear regression.
-    x : Vector
-        The values of x for which we want to predict values.
-    y : Vector
-        The actual values y for the given x.
-
-    Returns
-    -------
-    float
-        The sum of squared error for a simple linear regression
-    """
-    return sum(error(alpha, beta, x_i, y_i) ** 2 for x_i, y_i in zip(x, y))
-
-def fit_least_squares(x: Vector, y: Vector) -> Tuple[float, float]:
-    """
-    Calculates the alpha, beta terms for simple linear regression
-    that minimizes the sum of squared errors
-    
     Parameters
     ----------
     x : Vector
-        The values of x for which we want to predict values.
+        The value of x for which we want to predict y.
     y : Vector
-        The actual values y for the given x.
+        The known value of y at x.
+    beta : Vector
+        Vector with beta values for the linear model.
+    Returns
+    -------
+    float
+        The sum of squared error for the linear regression model.
+    """
+    return sum(error(x, y, beta) ** 2)
+
+def squared_error_gradient(x: Vector, y: Vector, beta: float) -> float:
+    """
+    Calculates the sum of squared errors from a simple linear regression.
+    
+    Parameters
+    ----------
+    Parameters
+    ----------
+    x : Vector
+        The value of x for which we want to predict y.
+    y : Vector
+        The known value of y at x.
+    beta : Vector
+        Vector with beta values for the linear model.
+    Returns
+    -------
+    float
+        The gradient vector of the squared errors.
+    """
+    error_val = error(x, y, beta)
+    return [2 * error_val * x_i for x_i in x]
+
+def fit_least_squares_gradient(x_vals: List[Vector],
+                               y_vals: List[Vector],
+                               learning_rate: float = 0.001,
+                               num_steps: int = 1000,
+                               batch_size: float | int = 1,
+                               fit_intercept: bool = True) -> Vector:
+    """
+    Estimates the parameters for a linear regression using gradient descent.
+    
+    Parameters
+    ----------
+    x_vals : List[Vector]
+        A list of vectors x_i for each point in the data set.
+    y_vals : List[Vector]
+        A list of vectors y_i for each point in the data set.
+    learning_rate: float = 0.001
+        The size of each gradient step.
+    num_steps: int = 1000
+        The number of gradient steps to make.
+    batch_size: float | int = 1
+        The number of minibatches for use in the gradient descent.
+    fit_intercept: bool = True
+        If true, appends a "1" to each vector in x_vals for the intercept.
 
     Returns
     -------
-    alpha, beta : float, float
-        The alpha, beta terms that minimize the sum of squared errors
+    Vector
+        A vector of estimated parameters for the linear regression model.
     """
-    beta = corr(x, y) * std(y) / std(x)
-    alpha = mean(y) - beta * mean(x)
-    return alpha, beta
+    assert len(x_vals) == len(y_vals), "X and Y vectors must be of equal length."
+    # If we are fitting an intercept, add "1" to vals
+    if fit_intercept:
+        for val in x_vals:
+            val.append(1.0)
+    
+    # Guess a random starting point
+    beta_est = [random.random() for val in x_vals]
+    
+    # Perform a minibatch gradient descent for num_steps to estimate beta
+    for _ in num_steps:
+        batch_x = g.minibatch(x_vals, batch_size)
+        batch_y = g.minibatch(y_vals, batch_size)
+        while batch_x:
+            gradient = v.vector_mean([squared_error_gradient(x, y, beta_est) for x, y in zip(batch_x, batch_y)])
+            beta_est = g.gradient_step(beta_est, gradient, -learning_rate)
+            
+    return beta_est
 
 def total_sum_of_squares(y: Vector) -> float:
     """
@@ -96,7 +146,7 @@ def total_sum_of_squares(y: Vector) -> float:
     Parameters
     ----------
     y : Vector
-        fA vector of y_i's.
+        A vector of y_i's.
 
     Returns
     -------
@@ -125,7 +175,7 @@ def r_squared(alpha: float, beta: float, x: Vector, y: Vector) -> float:
     float
         The value calculated for R^2.
     """
-    return 1.0 - (sum_of_squares_error(alpha, beta, x, y) / total_sum_of_squares(y))
+    return 1.0 - (squared_error(x, y, beta) / total_sum_of_squares(y))
 
 
 if __name__ == '__main__':
