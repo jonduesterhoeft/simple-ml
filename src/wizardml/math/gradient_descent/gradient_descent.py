@@ -104,7 +104,7 @@ def minibatch(dataset: List[T],
     if 0 < batch_size < 1:
         batch_size = batch_size * data_size
     batch_size = int(batch_size)
-    assert batch_size > 1, "batch_size must be greater than 1"
+    assert batch_size > 0, "batch_size must be greater than 0"
     
     
     batch_starts = [start for start in range(0, data_size, batch_size)]
