@@ -2,6 +2,10 @@ import pytest
 
 from src.wizardml.classifiers.linear_models import linear_regression as l
 
+# TODO
+# Finish linear regression fit tests
+# Add ridge regression tests
+
 # TEST PREDICT
 def test_predict():
     x = [1.0, 2.0, 3.0]
