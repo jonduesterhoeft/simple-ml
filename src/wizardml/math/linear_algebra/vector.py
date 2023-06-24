@@ -96,7 +96,7 @@ def vector_mean(vectors: List[Vector]) -> Vector:
     Parameters
     ----------
     vectors : List[Vector]
-        A List of Vectors of type List[Vector]
+        A list of vectors.
 
     Returns
     -------
